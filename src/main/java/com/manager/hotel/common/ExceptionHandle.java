@@ -13,16 +13,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class ExceptionHandle {
 
-    @ExceptionHandler(value = Exception.class)
+    @ExceptionHandler(value = CommonException.class)
     @ResponseBody
-    public ResultModel handle(Exception e){
-        if(e instanceof CommonException){
-            CommonException commonException = (CommonException) e;
-            return ResultModel.fail(commonException);
-        }else if (e instanceof MethodArgumentNotValidException){
-            String message = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors().get(0).getDefaultMessage();
-            return ResultModel.fail(CommonErrorCode.DATA_VALIDED, message);
-        }
-        return ResultModel.fail(CommonErrorCode.DATA_VALIDED, "111");
+    public ResultModel handle1(Exception e) {
+        CommonException commonException = (CommonException) e;
+        return ResultModel.fail(commonException);
+    }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ResponseBody
+    public ResultModel handle2(Exception e) {
+        String message = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        return ResultModel.fail(CommonErrorCode.DATA_VALIDED, message);
     }
 }
