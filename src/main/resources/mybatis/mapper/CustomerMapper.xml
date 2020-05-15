@@ -24,15 +24,10 @@
     delete from customer
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.manager.hotel.model.CustomerDO">
-    insert into customer (id, customer_name, phone, 
-      sex, id_number, customer_type, 
-      gmt_create, gmt_modified)
-    values (#{id,jdbcType=INTEGER}, #{customerName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=INTEGER}, #{idNumber,jdbcType=VARCHAR}, #{customerType,jdbcType=INTEGER}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
-  </insert>
     <insert id="insertSelective" parameterType="com.manager.hotel.model.CustomerDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         insert into customer
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">

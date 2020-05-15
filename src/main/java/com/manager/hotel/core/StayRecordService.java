@@ -1,5 +1,10 @@
 package com.manager.hotel.core;
 
+import com.manager.hotel.model.StayRecordDO;
+import com.manager.hotel.vo.AddStayRecordVO;
+
+import java.util.List;
+
 /**
  * @author haobai
  * @description:
@@ -7,7 +12,9 @@ package com.manager.hotel.core;
  */
 public interface StayRecordService {
 
-    void create();
+    List<StayRecordDO> list();
+
+    void create(AddStayRecordVO addStayRecordVO);
 
     void update();
 

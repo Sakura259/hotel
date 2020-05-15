@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manager.hotel.mapper.CustomerCostMapper" >
+  <resultMap id="BaseResultMap" type="com.manager.hotel.model.CustomerCostDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="record_id" property="recordId" jdbcType="INTEGER" />
+    <result column="cost_id" property="costId" jdbcType="INTEGER" />
+    <result column="cost_value" property="costValue" jdbcType="DOUBLE" />
+    <result column="discount" property="discount" jdbcType="DOUBLE" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, record_id, cost_id, cost_value, discount, status, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_cost
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from customer_cost
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.manager.hotel.model.CustomerCostDO" >
+    insert into customer_cost (id, record_id, cost_id, 
+      cost_value, discount, status, 
+      gmt_create, gmt_modified)
+    values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{costId,jdbcType=INTEGER}, 
+      #{costValue,jdbcType=DOUBLE}, #{discount,jdbcType=DOUBLE}, #{status,jdbcType=INTEGER}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.manager.hotel.model.CustomerCostDO" >
+    insert into customer_cost
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="recordId != null" >
+        record_id,
+      </if>
+      <if test="costId != null" >
+        cost_id,
+      </if>
+      <if test="costValue != null" >
+        cost_value,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="costId != null" >
+        #{costId,jdbcType=INTEGER},
+      </if>
+      <if test="costValue != null" >
+        #{costValue,jdbcType=DOUBLE},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manager.hotel.model.CustomerCostDO" >
+    update customer_cost
+    <set >
+      <if test="recordId != null" >
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="costId != null" >
+        cost_id = #{costId,jdbcType=INTEGER},
+      </if>
+      <if test="costValue != null" >
+        cost_value = #{costValue,jdbcType=DOUBLE},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manager.hotel.model.CustomerCostDO" >
+    update customer_cost
+    set record_id = #{recordId,jdbcType=INTEGER},
+      cost_id = #{costId,jdbcType=INTEGER},
+      cost_value = #{costValue,jdbcType=DOUBLE},
+      discount = #{discount,jdbcType=DOUBLE},
+      status = #{status,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

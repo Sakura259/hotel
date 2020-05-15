@@ -22,16 +22,18 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerMapper customerMapper;
 
     @Override
-    public void create(CustomerVO customerVO) {
+    public Integer create(CustomerVO customerVO) {
         CustomerDO customerDO = customerMapper.getByIdNumber(customerVO.getIdNumber());
         if (Objects.nonNull(customerDO)) {
             customerDO.setCustomerType(customerVO.getCustomerType());
             customerDO.setPhone(customerVO.getPhone());
             customerMapper.updateByPrimaryKeySelective(customerDO);
+            return customerDO.getId();
         }
         customerDO = new CustomerDO();
         BeanUtils.copyProperties(customerVO, customerDO);
         customerMapper.insertSelective(customerDO);
+        return customerDO.getId();
     }
 
     @Override

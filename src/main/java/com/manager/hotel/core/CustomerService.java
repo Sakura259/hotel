@@ -9,7 +9,7 @@ import com.manager.hotel.vo.CustomerVO;
  */
 public interface CustomerService {
 
-    void create(CustomerVO customerVO);
+    Integer create(CustomerVO customerVO);
 
     void update(CustomerVO customerVO);
 }

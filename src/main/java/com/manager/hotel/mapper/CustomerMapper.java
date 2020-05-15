@@ -5,8 +5,6 @@ import com.manager.hotel.model.CustomerDO;
 public interface CustomerMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(CustomerDO record);
-
     int insertSelective(CustomerDO record);
 
     CustomerDO selectByPrimaryKey(Integer id);

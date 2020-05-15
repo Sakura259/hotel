@@ -3,6 +3,7 @@ package com.manager.hotel.controller;
 import com.manager.hotel.common.CommonErrorCode;
 import com.manager.hotel.common.ResultModel;
 import com.manager.hotel.core.WorkerService;
+import com.manager.hotel.mapper.WorkerMapper;
 import com.manager.hotel.model.WorkerDO;
 import com.manager.hotel.vo.BaseVO;
 import com.manager.hotel.vo.WorkerLoginVO;
@@ -25,9 +26,18 @@ public class WorkController {
     @Resource
     private WorkerService workerService;
 
+    @Resource
+    private WorkerMapper workerMapper;
+
     @PostMapping("/login")
     public ResultModel login(@Validated @RequestBody WorkerLoginVO workerLoginVO) {
         WorkerDO workerDO = workerService.login(workerLoginVO);
+        return ResultModel.success(workerDO);
+    }
+
+    @GetMapping("/get")
+    public ResultModel get(@RequestParam("id") Integer id) {
+        WorkerDO workerDO = workerMapper.selectByPrimaryKey(id);
         return ResultModel.success(workerDO);
     }
 
