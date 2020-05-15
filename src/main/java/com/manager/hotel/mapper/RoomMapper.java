@@ -4,6 +4,7 @@ import com.manager.hotel.model.RoomDO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface RoomMapper {
     int deleteByPrimaryKey(Integer id);
@@ -21,4 +22,6 @@ public interface RoomMapper {
     RoomDO getByRoomId(Integer roomId);
 
     List<RoomDO> listByQuery(@Param("roomDO") RoomDO roomDO);
+
+    int updateRoomStatus(Set<Integer> roomIdList);
 }

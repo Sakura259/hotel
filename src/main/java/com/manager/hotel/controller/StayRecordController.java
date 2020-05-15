@@ -5,6 +5,7 @@ import com.manager.hotel.core.StayRecordService;
 import com.manager.hotel.model.StayRecordDO;
 import com.manager.hotel.vo.AddStayRecordVO;
 import com.manager.hotel.vo.BaseVO;
+import com.manager.hotel.vo.StayRecordVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class StayRecordController {
 
     @GetMapping("/list")
     public ResultModel list() {
-        List<StayRecordDO> list = stayRecordService.list();
+        List<StayRecordVO> list = stayRecordService.list();
         return ResultModel.success(list);
     }
 

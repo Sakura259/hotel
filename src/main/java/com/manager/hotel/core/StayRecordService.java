@@ -1,7 +1,7 @@
 package com.manager.hotel.core;
 
-import com.manager.hotel.model.StayRecordDO;
 import com.manager.hotel.vo.AddStayRecordVO;
+import com.manager.hotel.vo.StayRecordVO;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface StayRecordService {
 
-    List<StayRecordDO> list();
+    List<StayRecordVO> list();
 
     void create(AddStayRecordVO addStayRecordVO);
 

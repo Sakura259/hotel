@@ -19,4 +19,6 @@ public interface RoomService {
     void update(RoomVO roomVO);
 
     Boolean delete(Integer id);
+
+    void updateStatus();
 }

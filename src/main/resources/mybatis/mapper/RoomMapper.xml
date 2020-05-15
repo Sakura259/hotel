@@ -126,12 +126,13 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+
     <select id="listByQuery" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from room
         <where>
-            <if test="roomType != null">
+            <if test="roomDO.roomType != null">
                 room_type = #{roomDO.roomType,jdbcType=INTEGER},
             </if>
             <if test="roomDO.stayStatus != null">
@@ -147,4 +148,13 @@
         from room
         where room_id = #{roomId,jdbcType=INTEGER}
     </select>
+
+    <update id="updateRoomStatus">
+        update room
+        set stay_status = 1
+        where room_id in
+        <foreach collection="set" separator="," open="(" close=")" item="roomId">
+            #{roomId,jdbcType=INTEGER}
+        </foreach>
+    </update>
 </mapper>

@@ -17,6 +17,8 @@ public class StayRecordDO {
 
     private Integer roomId;
 
+    private Integer roomType;
+
     private Date reserveTime;
 
     private Date reserveOutTime;

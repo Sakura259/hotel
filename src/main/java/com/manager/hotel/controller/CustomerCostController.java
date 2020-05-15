@@ -3,10 +3,7 @@ package com.manager.hotel.controller;
 import com.manager.hotel.common.ResultModel;
 import com.manager.hotel.core.CustomerCostService;
 import com.manager.hotel.core.StayRecordService;
-import com.manager.hotel.enums.CustomerCostStatusEnum;
-import com.manager.hotel.model.CustomerCostDO;
 import com.manager.hotel.vo.CustomerCostVO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +22,6 @@ public class CustomerCostController {
 
     @Resource
     private CustomerCostService customerCostService;
-
-    @Resource
-    private StayRecordService stayRecordService;
 
     /**
      * 新增额外费用
