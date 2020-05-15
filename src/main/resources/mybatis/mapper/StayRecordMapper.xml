@@ -162,6 +162,7 @@
         <include refid="Base_Column_List"/>
         from stay_record
         where reserve_time <![CDATA[>=]]> #{date,jdbcType=TIMESTAMP} and reserve_out_time <![CDATA[<=]]> #{date,jdbcType=TIMESTAMP}
+        order by reserve_time
     </select>
 
 </mapper>

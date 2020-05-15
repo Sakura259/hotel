@@ -21,4 +21,6 @@ public interface StayRecordService {
     void delete(Integer id);
 
     void updateCost(Integer recordId);
+
+    void pay(Integer recordId);
 }

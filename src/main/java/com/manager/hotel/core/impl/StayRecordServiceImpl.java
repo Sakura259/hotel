@@ -1,5 +1,8 @@
 package com.manager.hotel.core.impl;
+import java.util.Date;
 
+import com.manager.hotel.common.CommonErrorCode;
+import com.manager.hotel.common.CommonException;
 import com.manager.hotel.core.CustomerService;
 import com.manager.hotel.core.StayRecordService;
 import com.manager.hotel.enums.CustomerCostStatusEnum;
@@ -19,10 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -73,6 +73,7 @@ public class StayRecordServiceImpl implements StayRecordService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(AddStayRecordVO addStayRecordVO) {
+        check(addStayRecordVO.getRoomId(), addStayRecordVO.getReserveTime());
         // 新增客户信息
         CustomerVO customerVO = addStayRecordVO.getCustomerVO();
         // 根据身份证判断用户是否住过
@@ -107,6 +108,7 @@ public class StayRecordServiceImpl implements StayRecordService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(AddStayRecordVO addStayRecordVO) {
+        check(addStayRecordVO.getRoomId(), addStayRecordVO.getReserveTime());
         CustomerVO customerVO = addStayRecordVO.getCustomerVO();
         // 修改客人信息
         customerService.update(customerVO);
@@ -164,5 +166,26 @@ public class StayRecordServiceImpl implements StayRecordService {
             stayRecordDO.setCostStatus(CustomerCostStatusEnum.PAY.getCode());
         }
         stayRecordMapper.updateByPrimaryKeySelective(stayRecordDO);
+    }
+
+    @Override
+    public void pay(Integer recordId) {
+        customerCostMapper.updateCostStatus(recordId);
+        StayRecordDO stayRecordDO = new StayRecordDO();
+        stayRecordDO.setId(recordId);
+        stayRecordDO.setCostStatus(CustomerCostStatusEnum.PAY.getCode());
+        stayRecordMapper.updateByPrimaryKeySelective(stayRecordDO);
+    }
+
+    private void check(Integer roomId, Date reserveTime) {
+        Optional<StayRecordDO> result = stayRecordMapper.listByTime(reserveTime)
+                .stream()
+                .filter(stayRecordDO -> Objects.equals(stayRecordDO.getRoomId(), roomId))
+                .findFirst();
+        if (result.isPresent()) {
+            StayRecordDO stayRecordDO = result.get();
+            throw new CommonException(CommonErrorCode.RESOURCE_EXIT, String.format("房间号：%s的房间已被预定，请选择%s之后的时间", roomId, stayRecordDO.getReserveOutTime()));
+
+        }
     }
 }

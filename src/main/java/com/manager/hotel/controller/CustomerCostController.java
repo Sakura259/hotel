@@ -3,13 +3,12 @@ package com.manager.hotel.controller;
 import com.manager.hotel.common.ResultModel;
 import com.manager.hotel.core.CustomerCostService;
 import com.manager.hotel.core.StayRecordService;
+import com.manager.hotel.vo.CustomerCostDetailVO;
 import com.manager.hotel.vo.CustomerCostVO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author haobai
@@ -22,6 +21,12 @@ public class CustomerCostController {
 
     @Resource
     private CustomerCostService customerCostService;
+
+    @GetMapping("/get")
+    public ResultModel get(@RequestParam("recordId") Integer recordId) {
+        List<CustomerCostDetailVO> list = customerCostService.get(recordId);
+        return ResultModel.success(list);
+    }
 
     /**
      * 新增额外费用
@@ -47,7 +52,7 @@ public class CustomerCostController {
     }
 
     /**
-     * 修改费用
+     * 删除费用
      * @param customerCostVO
      * @return
      */

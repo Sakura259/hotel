@@ -23,4 +23,6 @@ public interface CustomerCostMapper {
     List<CustomerCostDO> list();
 
     List<CustomerCostDO> listByRecordId(Integer recordId);
+
+    int updateCostStatus(Integer recordId);
 }

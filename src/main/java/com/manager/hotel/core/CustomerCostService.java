@@ -1,6 +1,10 @@
 package com.manager.hotel.core;
 
+import com.manager.hotel.model.CustomerCostDO;
+import com.manager.hotel.vo.CustomerCostDetailVO;
 import com.manager.hotel.vo.CustomerCostVO;
+
+import java.util.List;
 
 /**
  * @author haobai
@@ -14,4 +18,6 @@ public interface CustomerCostService {
     void update(CustomerCostVO customerCostVO);
 
     void delete(Integer recordId, Integer costId);
+
+    List<CustomerCostDetailVO> get(Integer recordId);
 }
