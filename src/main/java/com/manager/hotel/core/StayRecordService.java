@@ -16,7 +16,9 @@ public interface StayRecordService {
 
     void create(AddStayRecordVO addStayRecordVO);
 
-    void update();
+    void update(AddStayRecordVO addStayRecordVO);
 
-    void delete();
+    void delete(Integer id);
+
+    void updateCost(Integer recordId);
 }

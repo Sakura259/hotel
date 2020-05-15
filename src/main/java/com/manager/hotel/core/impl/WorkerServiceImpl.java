@@ -64,7 +64,7 @@ public class WorkerServiceImpl implements WorkerService {
             throw new CommonException(CommonErrorCode.RESOURCE_EXIT, "员工id不能为空");
         }
         WorkerDO workerDO = workerMapper.getByName(workerVO.getName());
-        if (!Objects.equals(workerDO.getId(), workerVO.getId())) {
+        if (Objects.nonNull(workerDO) && !Objects.equals(workerDO.getId(), workerVO.getId())) {
             throw new CommonException(CommonErrorCode.RESOURCE_EXIT, "员工名已存在，请重新命名");
         }
         workerDO = new WorkerDO();

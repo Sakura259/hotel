@@ -1,6 +1,6 @@
 package com.manager.hotel.core;
 
-import com.manager.hotel.model.CustomerCostDO;
+import com.manager.hotel.vo.CustomerCostVO;
 
 /**
  * @author haobai
@@ -9,5 +9,9 @@ import com.manager.hotel.model.CustomerCostDO;
  */
 public interface CustomerCostService {
 
-    void create(CustomerCostDO customerCostDO);
+    void create(CustomerCostVO customerCostVO);
+
+    void update(CustomerCostVO customerCostVO);
+
+    void delete(Integer recordId, Integer costId);
 }

@@ -10,7 +10,7 @@ import java.util.Date;
  * @date 2020-05-15 13:10
  */
 @Data
-public class AddStayRecordVO {
+public class AddStayRecordVO extends BaseVO {
 
     private CustomerVO customerVO;
 

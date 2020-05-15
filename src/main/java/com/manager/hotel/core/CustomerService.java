@@ -1,5 +1,6 @@
 package com.manager.hotel.core;
 
+import com.manager.hotel.model.CustomerDO;
 import com.manager.hotel.vo.CustomerVO;
 
 /**
@@ -12,4 +13,8 @@ public interface CustomerService {
     Integer create(CustomerVO customerVO);
 
     void update(CustomerVO customerVO);
+
+    CustomerDO get(Integer id);
+
+    void delete(Integer id);
 }

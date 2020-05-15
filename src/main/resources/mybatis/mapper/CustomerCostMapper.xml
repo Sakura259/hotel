@@ -24,6 +24,10 @@
     delete from customer_cost
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByRecordIdAndCostId">
+     delete from customer_cost
+    where record_id = #{recordId,jdbcType=INTEGER} and cost_id = #{costId,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" parameterType="com.manager.hotel.model.CustomerCostDO" >
     insert into customer_cost (id, record_id, cost_id, 
       cost_value, discount, status, 
@@ -125,4 +129,16 @@
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="list" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from customer_cost
+  </select>
+
+  <select id="listByRecordId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from customer_cost
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </select>
+
 </mapper>

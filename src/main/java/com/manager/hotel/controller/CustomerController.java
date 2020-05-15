@@ -26,7 +26,6 @@ public class CustomerController {
 
     @PostMapping("/update")
     public ResultModel update(@Validated @RequestBody CustomerVO customerVO) {
-
         customerService.update(customerVO);
         return ResultModel.success("修改客户成功");
     }

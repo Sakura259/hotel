@@ -4,6 +4,7 @@ import com.manager.hotel.common.ResultModel;
 import com.manager.hotel.core.StayRecordService;
 import com.manager.hotel.model.StayRecordDO;
 import com.manager.hotel.vo.AddStayRecordVO;
+import com.manager.hotel.vo.BaseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,4 +35,17 @@ public class StayRecordController {
         stayRecordService.create(addStayRecordVO);
         return ResultModel.success("新增订单成功");
     }
+
+    @PostMapping("/update")
+    public ResultModel update(@RequestBody AddStayRecordVO addStayRecordVO) {
+        stayRecordService.update(addStayRecordVO);
+        return ResultModel.success("修改订单成功");
+    }
+
+    @PostMapping("/delete")
+    public ResultModel delete(@RequestBody BaseVO baseVO) {
+        stayRecordService.delete(baseVO.getId());
+        return ResultModel.success("删除订单成功");
+    }
+
 }
