@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -75,5 +76,10 @@ public class WorkerServiceImpl implements WorkerService {
     public Boolean delete(Integer id) {
         int delete = workerMapper.deleteByPrimaryKey(id);
         return delete > 0 ? true : false;
+    }
+
+    @Override
+    public List<WorkerDO> list() {
+        return workerMapper.list();
     }
 }

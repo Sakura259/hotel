@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author haobai
@@ -28,7 +29,6 @@ public class WorkController {
     public ResultModel login(@Validated @RequestBody WorkerLoginVO workerLoginVO) {
         WorkerDO workerDO = workerService.login(workerLoginVO);
         return ResultModel.success(workerDO);
-
     }
 
     @GetMapping("/logout")
@@ -57,5 +57,11 @@ public class WorkController {
         } else {
             return ResultModel.fail(CommonErrorCode.UNKNOWN_ERROR);
         }
+    }
+
+    @GetMapping("/list")
+    public ResultModel list() {
+        List<WorkerDO> list = workerService.list();
+        return ResultModel.success(list);
     }
 }

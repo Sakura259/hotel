@@ -4,6 +4,8 @@ import com.manager.hotel.model.WorkerDO;
 import com.manager.hotel.vo.WorkerLoginVO;
 import com.manager.hotel.vo.WorkerVO;
 
+import java.util.List;
+
 /**
  * @author haobai
  * @description:
@@ -20,4 +22,6 @@ public interface WorkerService {
     void update(WorkerVO workerVO);
 
     Boolean delete(Integer id);
+
+    List<WorkerDO> list();
 }

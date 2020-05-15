@@ -147,4 +147,9 @@
     from worker
     where `name` = #{name,jdbcType=VARCHAR}
   </select>
+
+  <select id="list" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from worker
+  </select>
 </mapper>
