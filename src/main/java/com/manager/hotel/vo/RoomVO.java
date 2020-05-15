@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class RoomVO extends BaseVO {
 
-    @NotNull(message = "房间id不能为空")
+    @NotNull(message = "房间号不能为空")
     private Integer roomId;
     @NotNull(message = "房间类型不能为空")
     private Integer roomType;

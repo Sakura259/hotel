@@ -27,27 +27,48 @@ public class RoomController {
     @Resource
     private RoomService roomService;
 
+    /**
+     * 房间列表
+     * @param roomType
+     * @param stayStatus
+     * @param cleanStatus
+     * @return
+     */
     @GetMapping("/list")
     public ResultModel query(@RequestParam(value = "roomType", required = false) Integer roomType,
                              @RequestParam(value = "stayStatus", required = false) Integer stayStatus,
                              @RequestParam(value = "cleanStatus", required = false) Integer cleanStatus) {
         List<RoomDO> query = roomService.query(roomType, stayStatus, cleanStatus);
-        log.info(JSON.toJSONString(query));
         return ResultModel.success(query);
     }
 
+    /**
+     * 创建房间
+     * @param roomVO
+     * @return
+     */
     @PostMapping("/create")
     public ResultModel create(@Validated @RequestBody RoomVO roomVO) {
         roomService.create(roomVO);
         return ResultModel.success("新增房间成功");
     }
 
+    /**
+     * 修改房间
+     * @param roomVO
+     * @return
+     */
     @PostMapping("/update")
     public ResultModel update(@Validated @RequestBody RoomVO roomVO) {
         roomService.update(roomVO);
         return ResultModel.success("更新房间成功");
     }
 
+    /**
+     * 删除房间
+     * @param baseVO
+     * @return
+     */
     @PostMapping("/delete")
     public ResultModel delete(@RequestBody BaseVO baseVO) {
         Boolean result = roomService.delete(baseVO.getId());

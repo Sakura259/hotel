@@ -15,6 +15,8 @@ public enum CustomerCostStatusEnum {
     NOT_PAY(0, "未付款"),
 
     PAY(1, "已付款"),
+
+    FINISH(2, "已完成"),
     ;
 
     private Integer code;

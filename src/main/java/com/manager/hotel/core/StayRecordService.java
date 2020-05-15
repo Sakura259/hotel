@@ -23,4 +23,6 @@ public interface StayRecordService {
     void updateCost(Integer recordId);
 
     void pay(Integer recordId);
+
+    void settlement(Integer recordId);
 }

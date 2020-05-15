@@ -173,8 +173,30 @@ public class StayRecordServiceImpl implements StayRecordService {
         customerCostMapper.updateCostStatus(recordId);
         StayRecordDO stayRecordDO = new StayRecordDO();
         stayRecordDO.setId(recordId);
-        stayRecordDO.setCostStatus(CustomerCostStatusEnum.PAY.getCode());
+        stayRecordDO.setCostStatus(CustomerCostStatusEnum.FINISH.getCode());
         stayRecordMapper.updateByPrimaryKeySelective(stayRecordDO);
+    }
+
+    @Override
+    public void settlement(Integer recordId) {
+        // 更新退房时间
+        StayRecordDO stayRecordDO = new StayRecordDO();
+        stayRecordDO.setId(recordId);
+        Date currentTime = new Date();
+        stayRecordDO.setOutTime(currentTime);
+        stayRecordMapper.updateByPrimaryKeySelective(stayRecordDO);
+
+        // 判断是否存在超时费
+        stayRecordDO = stayRecordMapper.selectByPrimaryKey(recordId);
+        if (stayRecordDO.getOutTime().after(stayRecordDO.getReserveOutTime())) {
+            CustomerCostDO customerCostDO = new CustomerCostDO();
+            customerCostDO.setRecordId(recordId);
+            customerCostDO.setCostId(2);
+            customerCostDO.setCostValue(50.0D);
+            customerCostDO.setDiscount(1.0D);
+            customerCostDO.setStatus(CustomerCostStatusEnum.NOT_PAY.getCode());
+            customerCostMapper.insertSelective(customerCostDO);
+        }
     }
 
     private void check(Integer roomId, Date reserveTime) {

@@ -2,7 +2,6 @@ package com.manager.hotel.controller;
 
 import com.manager.hotel.common.ResultModel;
 import com.manager.hotel.core.CustomerCostService;
-import com.manager.hotel.core.StayRecordService;
 import com.manager.hotel.vo.CustomerCostDetailVO;
 import com.manager.hotel.vo.CustomerCostVO;
 import org.springframework.web.bind.annotation.*;

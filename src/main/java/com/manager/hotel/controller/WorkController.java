@@ -29,24 +29,44 @@ public class WorkController {
     @Resource
     private WorkerMapper workerMapper;
 
+    /**
+     * 员工登录
+     * @param workerLoginVO
+     * @return
+     */
     @PostMapping("/login")
     public ResultModel login(@Validated @RequestBody WorkerLoginVO workerLoginVO) {
         WorkerDO workerDO = workerService.login(workerLoginVO);
         return ResultModel.success(workerDO);
     }
 
+    /**
+     * 获取用户信息
+     * @param id
+     * @return
+     */
     @GetMapping("/get")
     public ResultModel get(@RequestParam("id") Integer id) {
         WorkerDO workerDO = workerMapper.selectByPrimaryKey(id);
         return ResultModel.success(workerDO);
     }
 
+    /**
+     * 远登出
+     * @param id
+     * @return
+     */
     @GetMapping("/logout")
     public ResultModel logout(@RequestParam(value = "id") Integer id) {
         workerService.logout(id);
         return ResultModel.success("登出成功");
     }
 
+    /**
+     * 创建员工
+     * @param workerVO
+     * @return
+     */
     @PostMapping("/create")
     public ResultModel create(@Validated @RequestBody WorkerVO workerVO) {
         workerService.create(workerVO);

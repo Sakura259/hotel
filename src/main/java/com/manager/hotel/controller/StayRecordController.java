@@ -67,13 +67,24 @@ public class StayRecordController {
     }
 
     /**
-     * 付款
-     * @param recordId
+     * 退房结算
+     * @param baseVO
+     * @return
+     */
+    @PostMapping("/settlement")
+    public ResultModel settlement(@RequestBody BaseVO baseVO) {
+        stayRecordService.settlement(baseVO.getId());
+        return ResultModel.success("退房成功");
+    }
+
+    /**
+     * 支付余款
+     * @param baseVO
      * @return
      */
     @PostMapping("/pay")
-    public ResultModel pay(@RequestParam("recordId") Integer recordId) {
-        stayRecordService.pay(recordId);
+    public ResultModel pay(@RequestParam("recordId") BaseVO baseVO) {
+        stayRecordService.pay(baseVO.getId());
         return ResultModel.success("付款成功");
     }
 
