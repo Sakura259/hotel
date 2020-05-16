@@ -8,7 +8,7 @@ import lombok.Data;
  * @date 2020-05-15 17:20
  */
 @Data
-public class CustomerCostVO {
+public class CustomerCostVO extends BaseVO {
 
     private Integer recordId;
 

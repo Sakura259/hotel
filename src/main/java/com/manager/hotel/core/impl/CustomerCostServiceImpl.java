@@ -10,6 +10,7 @@ import com.manager.hotel.model.CostInfoDO;
 import com.manager.hotel.model.CustomerCostDO;
 import com.manager.hotel.vo.CustomerCostDetailVO;
 import com.manager.hotel.vo.CustomerCostVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  * @description:
  * @date 2020-05-15 13:37
  */
+@Slf4j
 @Service
 public class CustomerCostServiceImpl implements CustomerCostService {
 
@@ -51,6 +53,7 @@ public class CustomerCostServiceImpl implements CustomerCostService {
         CustomerCostDO customerCostDO = new CustomerCostDO();
         BeanUtils.copyProperties(customerCostVO, customerCostDO);
         customerCostDO.setStatus(CustomerCostStatusEnum.NOT_PAY.getCode());
+        log.info("customerCostDO:{}", customerCostDO);
         // 修改费用记录
         customerCostMapper.updateByPrimaryKeySelective(customerCostDO);
     }

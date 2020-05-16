@@ -13,18 +13,8 @@ import java.util.Date;
 public class StayRecordVO {
 
     private Integer id;
-    /**
-     * 客户id
-     */
-    private Integer customerId;
-    /**
-     * 客户名
-     */
-    private String customerName;
-    /**
-     * 客户类型 0：老用户 1：新用户
-     */
-    private Integer customerType;
+
+    private CustomerVO customerVO;
     /**
      * 房间id
      */

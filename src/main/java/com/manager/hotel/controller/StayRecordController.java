@@ -4,6 +4,7 @@ import com.manager.hotel.common.ResultModel;
 import com.manager.hotel.core.StayRecordService;
 import com.manager.hotel.vo.AddStayRecordVO;
 import com.manager.hotel.vo.BaseVO;
+import com.manager.hotel.vo.PayVO;
 import com.manager.hotel.vo.StayRecordVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -73,8 +74,8 @@ public class StayRecordController {
      */
     @PostMapping("/settlement")
     public ResultModel settlement(@RequestBody BaseVO baseVO) {
-        stayRecordService.settlement(baseVO.getId());
-        return ResultModel.success("退房成功");
+        PayVO payVO = stayRecordService.settlement(baseVO.getId());
+        return ResultModel.success(payVO);
     }
 
     /**
@@ -83,7 +84,7 @@ public class StayRecordController {
      * @return
      */
     @PostMapping("/pay")
-    public ResultModel pay(@RequestParam("recordId") BaseVO baseVO) {
+    public ResultModel pay(@RequestBody BaseVO baseVO) {
         stayRecordService.pay(baseVO.getId());
         return ResultModel.success("付款成功");
     }

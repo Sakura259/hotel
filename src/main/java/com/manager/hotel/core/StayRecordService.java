@@ -1,6 +1,7 @@
 package com.manager.hotel.core;
 
 import com.manager.hotel.vo.AddStayRecordVO;
+import com.manager.hotel.vo.PayVO;
 import com.manager.hotel.vo.StayRecordVO;
 
 import java.util.List;
@@ -24,5 +25,5 @@ public interface StayRecordService {
 
     void pay(Integer recordId);
 
-    void settlement(Integer recordId);
+    PayVO settlement(Integer recordId);
 }

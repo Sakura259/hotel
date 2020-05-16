@@ -1,4 +1,5 @@
 package com.manager.hotel.core.impl;
+
 import java.util.Date;
 
 import com.manager.hotel.common.CommonErrorCode;
@@ -16,7 +17,9 @@ import com.manager.hotel.model.RoomDO;
 import com.manager.hotel.model.StayRecordDO;
 import com.manager.hotel.vo.AddStayRecordVO;
 import com.manager.hotel.vo.CustomerVO;
+import com.manager.hotel.vo.PayVO;
 import com.manager.hotel.vo.StayRecordVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +34,7 @@ import java.util.stream.Collectors;
  * @description:
  * @date 2020-05-15 11:57
  */
+@Slf4j
 @Service
 public class StayRecordServiceImpl implements StayRecordService {
 
@@ -52,6 +56,7 @@ public class StayRecordServiceImpl implements StayRecordService {
         List<StayRecordVO> list = stayRecordDOS.stream().map(stayRecordDO -> {
             StayRecordVO stayRecordVO = new StayRecordVO();
             BeanUtils.copyProperties(stayRecordDO, stayRecordVO);
+
             List<CustomerCostDO> customerCostDOS = customerCostMapper.listByRecordId(stayRecordDO.getId());
             AtomicReference<Double> payNum = new AtomicReference<>(0.00D);
             AtomicReference<Double> notPayNum = new AtomicReference<>(0.00D);
@@ -65,6 +70,10 @@ public class StayRecordServiceImpl implements StayRecordService {
             });
             stayRecordVO.setPayNum(payNum.get());
             stayRecordVO.setNotPayNum(notPayNum.get());
+            CustomerDO customerDO = customerService.get(stayRecordDO.getCustomerId());
+            CustomerVO customerVO = new CustomerVO();
+            BeanUtils.copyProperties(customerDO, customerVO);
+            stayRecordVO.setCustomerVO(customerVO);
             return stayRecordVO;
         }).collect(Collectors.toList());
         return list;
@@ -73,15 +82,18 @@ public class StayRecordServiceImpl implements StayRecordService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(AddStayRecordVO addStayRecordVO) {
+        log.info("addStayRecordVO:{}", addStayRecordVO);
         check(addStayRecordVO.getRoomId(), addStayRecordVO.getReserveTime());
         // 新增客户信息
         CustomerVO customerVO = addStayRecordVO.getCustomerVO();
+        log.info("customerVO:{}", customerVO);
         // 根据身份证判断用户是否住过
         Integer customerId = customerService.create(customerVO);
 
         CustomerDO customerDO = customerService.get(customerId);
         RoomDO roomDO = roomMapper.getByRoomId(addStayRecordVO.getRoomId());
-        // 新增预定信息
+
+        // 新增预定信息log.info("roomDO:{}", roomDO);
         StayRecordDO stayRecordDO = new StayRecordDO();
         stayRecordDO.setCustomerId(customerId);
         stayRecordDO.setCustomerName(customerDO.getCustomerName());
@@ -90,9 +102,9 @@ public class StayRecordServiceImpl implements StayRecordService {
         stayRecordDO.setRoomType(roomDO.getRoomType());
         stayRecordDO.setReserveTime(addStayRecordVO.getReserveTime());
         stayRecordDO.setReserveOutTime(addStayRecordVO.getReserveOutTime());
-        stayRecordDO.setCostStatus(0);
+        stayRecordDO.setCostStatus(1);
         stayRecordMapper.insertSelective(stayRecordDO);
-        double day = (double) (addStayRecordVO.getReserveTime().getTime() - addStayRecordVO.getReserveOutTime().getTime()) / (24 * 60 * 60 * 1000);
+        double day = (double) (addStayRecordVO.getReserveOutTime().getTime() - addStayRecordVO.getReserveTime().getTime()) / (24 * 60 * 60 * 1000);
         Integer recordDOId = stayRecordDO.getId();
         // 新建消费记录
         CustomerCostDO customerCostDO = new CustomerCostDO();
@@ -101,7 +113,7 @@ public class StayRecordServiceImpl implements StayRecordService {
         customerCostDO.setCostId(1);
         customerCostDO.setCostValue(roomDO.getRoomPrice() * day);
         customerCostDO.setDiscount(1.00D);
-        customerCostDO.setStatus(0);
+        customerCostDO.setStatus(1);
         customerCostMapper.insertSelective(customerCostDO);
     }
 
@@ -115,24 +127,25 @@ public class StayRecordServiceImpl implements StayRecordService {
         RoomDO roomDO = roomMapper.getByRoomId(addStayRecordVO.getRoomId());
         // 修改入住信息
         StayRecordDO stayRecordDO = new StayRecordDO();
+        stayRecordDO.setId(addStayRecordVO.getId());
         stayRecordDO.setCustomerId(customerVO.getId());
         stayRecordDO.setCustomerName(customerVO.getCustomerName());
         stayRecordDO.setCustomerType(customerVO.getCustomerType());
         stayRecordDO.setReserveTime(addStayRecordVO.getReserveTime());
         stayRecordDO.setRoomId(addStayRecordVO.getRoomId());
         stayRecordDO.setRoomType(roomDO.getRoomType());
-        stayRecordDO.setCostStatus(0);
+        stayRecordDO.setCostStatus(1);
         stayRecordDO.setReserveOutTime(addStayRecordVO.getReserveOutTime());
-        stayRecordMapper.insertSelective(stayRecordDO);
+        stayRecordMapper.updateByPrimaryKeySelective(stayRecordDO);
         // 修改房费信息
-        double day = (double) (addStayRecordVO.getReserveTime().getTime() - addStayRecordVO.getReserveOutTime().getTime()) / (24 * 60 * 60 * 1000);
+        double day = (double) (addStayRecordVO.getReserveOutTime().getTime() - addStayRecordVO.getReserveTime().getTime()) / (24 * 60 * 60 * 1000);
         CustomerCostDO customerCostDO = new CustomerCostDO();
         customerCostDO.setRecordId(addStayRecordVO.getId());
         // 房费
         customerCostDO.setCostId(1);
         customerCostDO.setCostValue(roomDO.getRoomPrice() * day);
         customerCostDO.setDiscount(1.00D);
-        customerCostDO.setStatus(0);
+        customerCostDO.setStatus(1);
         customerCostMapper.updateByPrimaryKeySelective(customerCostDO);
     }
 
@@ -178,7 +191,7 @@ public class StayRecordServiceImpl implements StayRecordService {
     }
 
     @Override
-    public void settlement(Integer recordId) {
+    public PayVO settlement(Integer recordId) {
         // 更新退房时间
         StayRecordDO stayRecordDO = new StayRecordDO();
         stayRecordDO.setId(recordId);
@@ -197,6 +210,16 @@ public class StayRecordServiceImpl implements StayRecordService {
             customerCostDO.setStatus(CustomerCostStatusEnum.NOT_PAY.getCode());
             customerCostMapper.insertSelective(customerCostDO);
         }
+        AtomicReference<Double> notPay = new AtomicReference<>(0.0D);
+        customerCostMapper.listByRecordId(recordId)
+                .stream()
+                .filter(customerCostDO -> Objects.equals(customerCostDO.getCostValue(), CustomerCostStatusEnum.NOT_PAY.getCode()))
+                .forEach(customerCostDO -> notPay.updateAndGet(v -> v + customerCostDO.getDiscount() * customerCostDO.getCostValue()));
+
+        PayVO payVO = new PayVO();
+        payVO.setNotPay(notPay.get());
+        payVO.setId(recordId);
+        return payVO;
     }
 
     private void check(Integer roomId, Date reserveTime) {

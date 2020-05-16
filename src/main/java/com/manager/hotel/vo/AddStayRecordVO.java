@@ -20,8 +20,4 @@ public class AddStayRecordVO extends BaseVO {
 
     private Date reserveOutTime;
 
-    private Date outTime;
-
-    private Integer costStatus;
-
 }

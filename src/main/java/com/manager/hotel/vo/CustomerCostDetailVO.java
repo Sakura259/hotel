@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class CustomerCostDetailVO {
 
+    private Integer id;
+
     private Integer recordId;
 
     private Integer costId;
