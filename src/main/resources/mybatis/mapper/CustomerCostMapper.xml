@@ -140,6 +140,11 @@
     from customer_cost
     where record_id = #{recordId,jdbcType=INTEGER}
   </select>
+  <select id="listByTime" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from  customer_cost
+    where gmt_modified <![CDATA[>=]]> #{startTime} and gmt_modified <![CDATA[<=]]> #{endTime} and status = 1
+  </select>
 
   <update id="updateCostStatus">
      update customer_cost

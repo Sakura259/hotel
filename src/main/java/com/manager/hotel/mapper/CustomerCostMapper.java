@@ -3,6 +3,7 @@ package com.manager.hotel.mapper;
 import com.manager.hotel.model.CustomerCostDO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface CustomerCostMapper {
@@ -25,4 +26,6 @@ public interface CustomerCostMapper {
     List<CustomerCostDO> listByRecordId(Integer recordId);
 
     int updateCostStatus(Integer recordId);
+
+    List<CustomerCostDO> listByTime(@Param("startTime") Date startTime, @Param("endTime") Date endTime);
 }

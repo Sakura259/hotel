@@ -213,7 +213,7 @@ public class StayRecordServiceImpl implements StayRecordService {
         AtomicReference<Double> notPay = new AtomicReference<>(0.0D);
         customerCostMapper.listByRecordId(recordId)
                 .stream()
-                .filter(customerCostDO -> Objects.equals(customerCostDO.getCostValue(), CustomerCostStatusEnum.NOT_PAY.getCode()))
+                .filter(customerCostDO -> Objects.equals(customerCostDO.getStatus(), CustomerCostStatusEnum.NOT_PAY.getCode()))
                 .forEach(customerCostDO -> notPay.updateAndGet(v -> v + customerCostDO.getDiscount() * customerCostDO.getCostValue()));
 
         PayVO payVO = new PayVO();
