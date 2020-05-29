@@ -51,7 +51,7 @@ public class WorkerServiceImpl implements WorkerService {
     public void create(WorkerVO workerVO) {
         WorkerDO workerDO = workerMapper.getByName(workerVO.getName());
         if (Objects.nonNull(workerDO)) {
-            throw new CommonException(CommonErrorCode.RESOURCE_EXIT, "员工名已存在，请重新命名");
+            throw new CommonException(CommonErrorCode.RESOURCE_EXIT, "用户已存在，请重新命名");
         }
         workerDO = new WorkerDO();
         BeanUtils.copyProperties(workerVO, workerDO);
